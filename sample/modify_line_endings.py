@@ -3,13 +3,11 @@
 import os
 
 
-def check_string_contains(string, string_list):
-    for s in string_list:
-        if s in string:
-            return True
-    return False
-
-
+# Not recommended to use try-except for implementing logic,
+# but in this case, it will handle all possible exceptions,
+# which works more reliably and will make the script more robust.
+# If you don't want to use try-except, you can use the following code instead:
+# from binaryornot.check import is_binary  # pip install binaryornot
 def is_binary(file_name):
     try:
         with open(file_name, "tr") as check_file:  # try open file in text mode
