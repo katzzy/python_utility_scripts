@@ -1,4 +1,5 @@
-# This script modifies line endings of all files in a folder and its subfolders to CRLF (Windows style)
+# This script modifies line endings of all files in a folder
+# and its subfolders to CRLF (Windows style)
 # to avoid git warnings when comitting files with LF (Linux style) line endings
 import os
 
@@ -13,11 +14,13 @@ def is_binary(file_name):
         with open(file_name, "tr") as check_file:  # try open file in text mode
             check_file.read()
             return False
-    except:  # if fail then file is non-text (binary)
+    except UnicodeDecodeError:
         return True
 
 
-def modify_line_endings(folder_path, ignore_folders=[]):
+def modify_line_endings(folder_path, ignore_folders=None):
+    if ignore_folders is None:
+        ignore_folders = []
     for root, dirs, files in os.walk(folder_path):
         for file in files:
             if any(s in root for s in ignore_folders):
@@ -27,7 +30,8 @@ def modify_line_endings(folder_path, ignore_folders=[]):
                 continue
             with open(file_path, "r", newline="", encoding="utf-8") as f:
                 content = f.readlines()
-            # len(content) == 1 for some one line files with no line endings, you should handle this case manually
+            # len(content) == 1 for some one line files with no line endings,
+            # you should handle this case manually
             if content is None or len(content) == 0 or len(content) == 1:
                 continue
             if "\r\n" in content[0]:

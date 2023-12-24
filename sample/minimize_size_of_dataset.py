@@ -1,4 +1,5 @@
-# This script deletes a specified percentage of files from each folder in a directory
+# This script deletes a specified percentage of files
+# from each folder in a directory
 # to minimize the size of the dataset for testing purposes
 import os
 import random
